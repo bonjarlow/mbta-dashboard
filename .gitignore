@@ -18,6 +18,12 @@ mbta-venv/
 .env
 .env.*
 
+clean-route-shapes.py
+ex-mbta-vehicle-api.json
+get-route-shapes.py
+mbta-plot-vehicles.py
+test-mbta-api.py
+
 # misc
 .DS_Store
 .env.local
