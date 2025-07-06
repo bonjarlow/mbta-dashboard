@@ -13,11 +13,17 @@
 
 /public
 
+App.test.js
+logo.svg
+reportWebVitals.js
+setupTests.js
+
 # virtual environments
 mbta-venv/
 .env
 .env.*
 
+# scripts to test or cache static route/stop data
 clean-route-shapes.py
 ex-mbta-vehicle-api.json
 get-route-shapes.py
