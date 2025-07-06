@@ -1,10 +1,13 @@
-import { MapContainer, TileLayer, Polyline } from 'react-leaflet';
 import { useState } from 'react';
-import AnimatedMarker from './AnimatedMarker';
 import shapes from '../data/decoded_route_shapes_canonical.json'; // pre-decoded shapes
+import AnimatedMarker from './AnimatedMarker';
+
+import Map, { NavigationControl } from 'react-map-gl/maplibre';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import { Source, Layer } from 'react-map-gl/maplibre';
 
 const MapView = ({ vehicles }) => {
-    //Coordinates for boston center
+    //Coordinates for boston center [lat, long]
     const position = [42.3601, -71.0589];
 
     //TODO: Simplify the coloring for buttons, routes, vehicles etc
@@ -12,26 +15,6 @@ const MapView = ({ vehicles }) => {
     const [visibleLines, setVisibleLines] = useState(new Set(["R", "G", "B", "O", "C", "Bus"]));
     const LINE_CODES = { R: "Red", G: "Green", O: "Orange", B: "Blue", C: "Commuter", Bus: "Bus" };
     const colorMap = { R: '#DA291C', G: '#00843D', B: '#003DA5', O: '#ED8B00' , C: '#80276C' , Bus: 'black' };
-
-    const routeIdColor = (routeId) => {
-      const colorMap = {
-        'Red': '#DA291C',
-        'Mattapan': '#DA291C',
-        'Orange': '#ED8B00',
-        'Blue': '#003DA5',
-        'Green-B': '#00843D',
-        'Green-C': '#00843D',
-        'Green-D': '#00843D',
-        'Green-E': '#00843D',
-      };
-
-      if (colorMap[routeId]) return colorMap[routeId];
-     //commuter rail
-      if (routeId.startsWith('CR')) return '#80276C';
-      //defaul color if no match
-      return 'gray';
-
-    };
 
     const toggleLine = (line) => {
         setVisibleLines(prev => {
@@ -54,6 +37,45 @@ const MapView = ({ vehicles }) => {
 
         return false;
     });
+
+    const shapeFeatures = Object.entries(shapes)
+    .filter(([routeId]) => isNaN(routeId)) // optional: skip buses
+    .map(([routeId, points]) => ({
+      type: 'Feature',
+      properties: { routeId },
+      geometry: {
+        type: 'LineString',
+        coordinates: points.map(p => [p.lon, p.lat])
+      }
+    }));
+
+    const shapeGeoJSON = {
+      type: 'FeatureCollection',
+      features: shapeFeatures
+    };
+
+    const routeLineLayer = {
+      id: 'routes',
+      type: 'line',
+      paint: {
+        'line-width': 4,
+        'line-opacity': 0.8,
+        'line-color': [
+          'match',
+          ['get', 'routeId'],
+          'Red', '#DA291C',
+          'Mattapan', '#DA291C',
+          'Blue', '#003DA5',
+          'Green-B', '#00843D',
+          'Green-C', '#00843D',
+          'Green-D', '#00843D',
+          'Green-E', '#00843D',
+          'Orange', '#ED8B00',
+          // fallback
+          '#80276C'
+        ]
+      }
+    };
 
     return (
       <div>
@@ -79,34 +101,30 @@ const MapView = ({ vehicles }) => {
         </div>
 
         {/* Map */}
-        <MapContainer center={position} zoom={13} style={{ height: '600px', width: '100%' }}>
+        <div style={{ width: '100vw', height: '100vh' }}>
+          <Map
+            mapLib={import('maplibre-gl')}
+            initialViewState={{
+              longitude: position[1],
+              latitude: position[0],
+              zoom: 12,
+            }}
+            style={{ width: '100%', height: '100%' }}
+            mapStyle="https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json" // free, no key needed
+          >
+            <NavigationControl position="top-left" />
 
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+            <Source id="route-shapes" type="geojson" data={shapeGeoJSON}>
+              <Layer {...routeLineLayer} />
+            </Source>
 
-          {/* Route shapes */}
-          {Object.entries(shapes)
-            .filter(([routeId]) => isNaN(routeId)) // optional: skip numeric routeIds (buses)
-            .map(([routeId, points]) => (
-              <Polyline
-                key={routeId}
-                positions={points.map(p => [p.lat, p.lon])}
-                pathOptions={{
-                  color: routeIdColor(routeId),
-                  weight: 4,
-                  opacity: 0.8,
-                }}
-              />
-            ))
-          }
+            {visibleVehicles.map(vehicle => (
+                <AnimatedMarker key={vehicle.uid} vehicle={vehicle} />
+            ))}
 
-          {visibleVehicles.map(vehicle => (
-            <AnimatedMarker key={vehicle.uid} vehicle={vehicle} />
-          ))}
+          </Map>
 
-        </MapContainer>
+        </div>
       </div>
     );
 };

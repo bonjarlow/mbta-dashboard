@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import { routeMap } from '../hooks/useRouteData';
 import { stopMap } from '../hooks/useStopsData';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/vehicles';
+//const API_URL = 'http://192.168.0.102:5000/api/vehicles';
+
 const useVehicleData = () => {
   const [vehicles, setVehicles] = useState([]);
 
   useEffect(() => {
     const fetchAndParseVehicles = () => {
-      fetch("http://localhost:5000/api/vehicles")
+      fetch(API_URL)
         .then((res) => res.json())
         .then((data) => {
           const vehiclePoints = data.data || [];
