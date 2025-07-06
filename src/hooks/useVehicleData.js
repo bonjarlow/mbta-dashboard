@@ -3,7 +3,6 @@ import { routeMap } from '../hooks/useRouteData';
 import { stopMap } from '../hooks/useStopsData';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/vehicles';
-//const API_URL = 'http://192.168.0.102:5000/api/vehicles';
 
 const useVehicleData = () => {
   const [vehicles, setVehicles] = useState([]);
