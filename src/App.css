@@ -2,6 +2,112 @@
   text-align: center;
 }
 
+.red-line {
+  color: #DA291C;
+}
+
+.green-line {
+  color: #00843D;
+}
+
+.blue-line {
+  color: #003DA5;
+}
+
+.orange-line {
+  color: #ED8B00;
+}
+
+.commuter-rail {
+  color: #80276C;
+}
+
+.bus {
+ color: 'black';
+}
+
+.popup-r .leaflet-popup-content-wrapper {
+  background-color: rgba(218, 41, 28, 0.8) !important;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+.popup-r .leaflet-popup-tip {
+  background-color: rgba(218, 41, 28, 0.8) !important;
+}
+
+.popup-g .leaflet-popup-content-wrapper {
+  background-color: rgba(0, 132, 61, 0.8) !important;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+.popup-g .leaflet-popup-tip {
+  background-color: rgba(0, 132, 61, 0.8) !important;
+}
+
+.popup-b .leaflet-popup-content-wrapper {
+  background-color: rgba(0, 61, 165, 0.8) !important;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+.popup-b .leaflet-popup-tip {
+  background-color: rgba(0, 61, 165, 0.8) !important;
+}
+
+.popup-o .leaflet-popup-content-wrapper {
+  background-color: rgba(237, 139, 0, 0.8) !important;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+.popup-o .leaflet-popup-tip {
+  background-color: rgba(237, 139, 0, 0.8) !important;
+}
+
+.popup-c .leaflet-popup-content-wrapper {
+  background-color: rgba(128, 39, 108, 0.8) !important;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+.popup-c .leaflet-popup-tip {
+  background-color: rgba(128, 39, 108, 0.8) !important;
+}
+
+.popup-bus .leaflet-popup-content-wrapper {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+.popup-bus .leaflet-popup-tip {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.popup-b .leaflet-popup-content-wrapper,
+.popup-r .leaflet-popup-content-wrapper,
+.popup-g .leaflet-popup-content-wrapper,
+.popup-o .leaflet-popup-content-wrapper,
+.popup-c .leaflet-popup-content-wrapper,
+.popup-bus .leaflet-popup-content-wrapper {
+  font-weight: bold;
+}
+
+[class*="popup-"] .leaflet-popup-close-button {
+  color: white !important;
+  opacity: 1;
+}
+
+/* This keeps h2 and blip side-by-side */
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

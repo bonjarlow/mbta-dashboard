@@ -1,23 +1,16 @@
-import logo from './logo.svg';
+import useVehicleData from './hooks/useVehicleData';
+import MapView from './components/MapView';
+import TrainStats from './components/TrainStats';
 import './App.css';
 
 function App() {
+  const { vehicles } = useVehicleData(); // lift blip state down into hook
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <h2>MBTA Live Dashboard</h2>
+      <MapView vehicles={vehicles} />
+      <TrainStats vehicles={vehicles} />
     </div>
   );
 }
