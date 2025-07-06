@@ -11,8 +11,6 @@
 # production
 /build
 
-/public
-
 App.test.js
 logo.svg
 reportWebVitals.js
