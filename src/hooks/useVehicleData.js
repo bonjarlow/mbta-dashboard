@@ -30,6 +30,7 @@ const useVehicleData = () => {
               const color = route?.color ? `#${route.color}` : '#000000';
               const stop_id = v.relationships.stop?.data?.id ?? null;
               const stop = stopMap[stop_id];
+              const trip_id = v.relationships.trip.data.id;
 
               parsedVehicles.push({
                 uid: v.id,
@@ -46,6 +47,7 @@ const useVehicleData = () => {
                 color,
                 stop_id,
                 stop,
+                trip_id
               });
             }
           }
